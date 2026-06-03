@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>TrashCar · Хог тээвэрлэлт | Жингийн сонголт</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a2a1c 0%, #1c412e 100%);
+      font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Noto Sans', 'Helvetica Neue', sans-serif;
+      padding: 2rem 1.2rem;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+      background: #fffef7;
+      border-radius: 2.5rem;
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .header {
+      background: #1e562e;
+      padding: 1.6rem 2rem;
+      text-align: center;
+      color: white;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .header h1 span {
+      background: #ffc107;
+      font-size: 1.6rem;
+      padding: 0.2rem 0.8rem;
+      border-radius: 60px;
+      color: #1e3a2f;
+    }
+
+    .sub {
+      margin-top: 8px;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+
+    .form-container {
+      padding: 2rem 2rem 1.8rem 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.6rem;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #1e2f2a;
+      font-size: 0.95rem;
+    }
+
+    label i {
+      font-size: 1.2rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      font-size: 1rem;
+      border: 1.5px solid #ddd9ce;
+      border-radius: 1.2rem;
+      background: #ffffff;
+      transition: 0.2s;
+      font-family: inherit;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #1e562e;
+      box-shadow: 0 0 0 3px rgba(30, 86, 46, 0.2);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* фото хэсэг */
+    .photo-area {
+      border: 2px dashed #cbd5c3;
+      border-radius: 1.5rem;
+      background: #faf8f0;
+      padding: 1rem;
+      text-align: center;
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+
+    .photo-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      color: #1e562e;
+    }
+
+    .photo-label span:first-child {
+      font-size: 2rem;
+    }
+
+    .photo-preview {
+      margin-top: 12px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .preview-img {
+      max-width: 100%;
+      max-height: 160px;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border: 2px solid #e9e2d0;
+    }
+
+    .file-input-hidden {
+      display: none;
+    }
+
+    .location-hint {
+      font-size: 0.8rem;
+      color: #2d6a4f;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .get-location-btn {
+      background: #ecf7ef;
+      border: none;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 0.8rem;
+      color: #1e562e;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .get-location-btn:hover {
+      background: #d4e6da;
+    }
+
+    .submit-btn {
+      background: #1e562e;
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 2rem;
+      margin-top: 0.5rem;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .submit-btn:hover {
+      background: #0f3d22;
+      transform: scale(0.98);
+    }
+
+    /* footer холбоосууд */
+    .contact-footer {
+      background: #f4f1e8;
+      padding: 1.3rem 1.8rem;
+      border-top: 1px solid #e0d9ca;
+      text-align: center;
+    }
+
+    .footer-title {
+      font-weight: 700;
+      color: #1e3a2f;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+
+    .phone-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .phone-card {
+      background: white;
+      padding: 6px 20px;
+      border-radius: 50px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      border: 1px solid #d9d0bc;
+      transition: 0.2s;
+    }
+
+    .phone-card a {
+      text-decoration: none;
+      color: #1e562e;
+      font-weight: 700;
+    }
+
+    .phone-card a:hover {
+      text-decoration: underline;
+    }
+
+    .facebook-link {
+      margin-top: 8px;
+    }
+
+    .facebook-link a {
+      background: #1877f2;
+      color: white;
+      text-decoration: none;
+      padding: 8px 24px;
+      border-radius: 40px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: 0.2s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .facebook-link a:hover {
+      background: #0e5fd9;
+      transform: scale(1.02);
+    }
+
+    .toast-msg {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e2f2a;
+      color: #f8f3e0;
+      padding: 12px 24px;
+      border-radius: 60px;
+      font-weight: 500;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.25s;
+      pointer-events: none;
+      font-size: 0.9rem;
+      backdrop-filter: blur(4px);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 550px) {
+      .form-container {
+        padding: 1.5rem;
+      }
+      .phone-links {
+        gap: 1rem;
+      }
+      .phone-card {
+        font-size: 0.9rem;
+        padding: 4px 14px;
+      }
+      .toast-msg {
+        white-space: normal;
+        text-align: center;
+        width: 90%;
+      }
+    }
+
+    hr {
+      margin: 10px 0 18px;
+      border: none;
+      height: 1px;
+      background: #e2dbcc;
+    }
+
+    .info-note {
+      text-align: center;
+      font-size: 0.7rem;
+      color: #8f8a7a;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header">
+    <h1>
+      🚛 TRASH CAR 
+      <span>ХОГ ТЭЭВЭР</span>
+    </h1>
+    <div class="sub">Таны хог · бидний асуудал 💪</div>
+  </div>
+
+  <div class="form-container">
+    <form id="trashRequestForm">
+      <!-- 1. Хогийн төрөл -->
+      <div class="form-group">
+        <label>🗑️ Хогийн төрөл (төрөл/төрлүүд)</label>
+        <input type="text" id="trashType" placeholder="Жишээ: хуучин тавилга, барилгын хог, ахуйн хог, цаас, хуванцар ..." required>
+      </div>
+
+      <!-- 2. Хэмжээ / жингийн сонголт (тонноор) -->
+      <div class="form-group">
+        <label>⚖️ Хогны ойролцоо жин / хэмжээ</label>
+        <select id="weightOption" required>
+          <option value="" disabled selected>— Жингийн хэмжээ сонгоно уу —</option>
+          <option value="1-2 тонн (1-2 ton)">🚛 1-2 тонн (жижиг ачааны машин)</option>
+          <option value="3-4 тонн (3-4 ton)">🚚 3-4 тонн (дунд оврын ачаа)</option>
+          <option value="5-6 тонн (5-6 ton)">🏗️ 5-6 тонн (их хэмжээ)</option>
+          <option value="7-8 тонн (7-8 ton)">🏭 7-8 тонн (маш их хог)</option>
+          <option value="9+ тонн / бүрэн ачааны машин">⛟ 9+ тонн / бүрэн ачааны машин</option>
+        </select>
+        <div class="location-hint" style="margin-top: 5px; font-size:0.75rem;">
+          💡 Жингийн сонголт нь үнийн санал, тохирох машинаа тодорхойлоход тусална.
+        </div>
+      </div>
+
+      <!-- 3. Зураг хавсаргах -->
+      <div class="form-group">
+        <label>📸 Зураг хавсаргах (хогийн зураг)</label>
+        <div class="photo-area" id="photoArea">
+          <label class="photo-label" for="photoInput">
+            <span>🖼️➕</span>
+            <span>Зураг сонгох эсвэл чирж оруулах</span>
+          </label>
+          <input type="file" id="photoInput" class="file-input-hidden" accept="image/jpeg, image/png, image/jpg, image/webp">
+          <div id="imagePreviewContainer" class="photo-preview"></div>
+        </div>
+      </div>
+
+      <!-- 4. Байршил -->
+      <div class="form-group">
+        <label>📍 Байршил (гудамж, дүүрэг, хороо, маркер)</label>
+        <input type="text" id="locationText" placeholder="Жишээ: Сүхбаатар дүүрэг, 4-р хороо, Энхтайваны өргөн чөлөө ..." required>
+        <div class="location-hint">
+          <button type="button" id="getCurrentLocationBtn" class="get-location-btn">📍 Миний одоогийн байршил ашиглах</button>
+          <span style="font-size: 0.7rem;">(байршлын координат авах)</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>📞 Утасны дугаар (бидэнтэй холбогдох)</label>
+        <input type="tel" id="phoneNumber" placeholder="Жишээ: 9911-2233, 88123456, 7000-1111" required>
+      </div>
+
+      <hr>
+
+      <button type="submit" class="submit-btn" id="submitBtn">
+        ✉️ Хүсэлт илгээх · TrashCar
+      </button>
+      <div class="info-note">
+        * Таны мэдээлэл зөвхөн хог авахад хэрэглэгдэнэ. Зургийг тайлбартай хамт илгээнэ үү.
+      </div>
+    </form>
+  </div>
+
+  <!-- ХОЛБОО ХЭСЭГ: 2 утасны дугаар + facebook link -->
+  <div class="contact-footer">
+    <div class="footer-title">📞 Шууд холбогдох утаснууд</div>
+    <div class="phone-links">
+      <div class="phone-card">📱 <a href="tel:+97699112233">9911-2233</a></div>
+      <div class="phone-card">📞 <a href="tel:+97670001234">7000-1234</a></div>
+    </div>
+    <div class="facebook-link">
+      <a href="https://www.facebook.com/trashcar.mn" target="_blank" rel="noopener noreferrer">
+        <span>📘</span> TrashCar Facebook хуудас
+      </a>
+    </div>
+    <div class="info-note" style="margin-top: 12px;">
+      Бид 24/7 хог тээвэрлэлтэд бэлэн. Дээрх дугаараар захиалга баталгаажуулна уу.
+    </div>
+  </div>
+</div>
+
+<div id="toastMsg" class="toast-msg">✅ Амжилттай илгээлээ</div>
+
+<script>
+  (function() {
+    // DOM elementүүд
+    const form = document.getElementById('trashRequestForm');
+    const trashTypeInput = document.getElementById('trashType');
+    const weightSelect = document.getElementById('weightOption');
+    const photoInput = document.getElementById('photoInput');
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+    const locationTextInput = document.getElementById('locationText');
+    const phoneInput = document.getElementById('phoneNumber');
+    const getLocationBtn = document.getElementById('getCurrentLocationBtn');
+    const toast = document.getElementById('toastMsg');
+    
+    let selectedImageData = null;
+    let imageFile = null;
+
+    // Фото preiew
+    function handleImageFile(file) {
+      if (!file) return;
+      if (!file.type.startsWith('image/')) {
+        showToast('❌ Зөвхөн зурагны файл сонгоно уу (JPEG, PNG, WEBP)', 2500);
+        return;
+      }
+      if (file.size > 6 * 1024 * 1024) {
+        showToast('⚠️ Зургийн хэмжээ 6MB-аас бага байх ёстой', 2500);
+        return;
+      }
+      imageFile = file;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        selectedImageData = ev.target.result;
+        imagePreviewContainer.innerHTML = `<img src="${selectedImageData}" class="preview-img" alt="хогийн зураг">`;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    const photoArea = document.getElementById('photoArea');
+    photoArea.addEventListener('click', (e) => {
+      if (e.target.closest('.photo-label') || e.target === photoArea) {
+        photoInput.click();
+      }
+    });
+    photoInput.addEventListener('change', (e) => {
+      if (photoInput.files && photoInput.files[0]) {
+        handleImageFile(photoInput.files[0]);
+      }
+    });
+
+    // drag & drop
+    const dropZone = document.querySelector('.photo-area');
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.style.backgroundColor = '#f0f6ea';
+      dropZone.style.borderColor = '#1e562e';
+    });
+    dropZone.addEventListener('dragleave', (e) => {
+      e.preventDefault();
+      dropZone.style.backgroundColor = '#faf8f0';
+      dropZone.style.borderColor = '#cbd5c3';
+    });
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.style.backgroundColor = '#faf8f0';
+      dropZone.style.borderColor = '#cbd5c3';
+      const files = e.dataTransfer.files;
+      if (files && files.length > 0) {
+        handleImageFile(files[0]);
+      }
+    });
+
+    // Байршил тодорхойлох (координат)
+    function getCurrentLocation() {
+      if (!navigator.geolocation) {
+        showToast('⚠️ Таны хөтөч газар зүйн байршлыг дэмжихгүй байна.', 2000);
+        return;
+      }
+      showToast('📍 Байршил тодорхойлож байна ...', 1500);
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude.toFixed(6);
+          const lng = position.coords.longitude.toFixed(6);
+          const mapsLink = `https://www.google.com/maps?q=${lat},${lng}`;
+          const locationStr = `📍 ${lat}, ${lng} · Газрын зураг: ${mapsLink}`;
+          locationTextInput.value = locationStr;
+          showToast(`🌍 Байршил амжилттай: ${lat}, ${lng}`, 3000);
+        },
+        (error) => {
+          let errMsg = 'Байршил тодорхойлоход алдаа гарлаа. Тохиргоо шалгана уу.';
+          if (error.code === 1) errMsg = 'Хэрэглэгч байршлаа зөвшөөрөөгүй. Гараар оруулна уу.';
+          if (error.code === 2) errMsg = 'Байршлын мэдээлэл авах боломжгүй байна.';
+          showToast(`⚠️ ${errMsg}`, 3000);
+        },
+        { enableHighAccuracy: true, timeout: 10000 }
+      );
+    }
+    getLocationBtn.addEventListener('click', getCurrentLocation);
+
+    function showToast(message, duration = 2700) {
+      toast.textContent = message;
+      toast.style.opacity = '1';
+      setTimeout(() => {
+        toast.style.opacity = '0';
+      }, duration);
+    }
+
+    // Бизнесийн имэйл хаяг (өөрийн хаягаар солих)
+    const BUSINESS_EMAIL = "trashcar@info.mn";  // ӨӨРЧЛӨХ: жинхэнэ имэйл
+
+    function buildRequestMessage() {
+      const trashType = trashTypeInput.value.trim();
+      const weight = weightSelect.value;
+      const location = locationTextInput.value.trim();
+      const phone = phoneInput.value.trim();
+      
+      if (!trashType) return "Хогийн төрөл хоосон байна";
+      if (!weight) return "Жингийн сонголт хийгээгүй байна";
+      if (!location) return "Байршил оруулаагүй байна";
+      if (!phone) return "Утасны дугаар оруулаагүй байна";
+      
+      let photoInfo = "❌ Зураг оруулаагүй";
+      if (selectedImageData) {
+        photoInfo = "✅ Зураг хавсаргасан (preview харна уу)";
+      }
+      
+      const message = 
+`🚛 *ШИНЭ ХОГ ТЭЭВЭРЛЭХ ХҮСЭЛТ* 🚛
+
+📌 Хогийн төрөл: ${trashType}
+⚖️ Жин / хэмжээ: ${weight}
+📍 Байршил: ${location}
+📞 Холбогдох утас: ${phone}
+🖼️ Зураг: ${photoInfo}
+---
+Энэ хүсэлтийг TrashCar баг хүлээн авлаа. Таны хогийг заасан жингийн дагуу ачааны машин тээвэрлэх болно.`;
+      return message;
+    }
+
+    function validateForm() {
+      let valid = true;
+      if (!trashTypeInput.value.trim()) valid = false;
+      if (!weightSelect.value) valid = false;
+      if (!locationTextInput.value.trim()) valid = false;
+      if (!phoneInput.value.trim()) valid = false;
+      if (!valid) {
+        showToast("⚠️ Бүх заавал бөглөх талбарыг (төрөл, жин, байршил, утас) бөглөнө үү", 2800);
+      }
+      return valid;
+    }
+
+    async function copyToClipboard(message) {
+      try {
+        await navigator.clipboard.writeText(message);
+        showToast("📋 Хүсэлтийн текст хуулагдсан! Имэйл эсвэл WhatsApp руу буулгаж болно.", 3500);
+      } catch (err) {
+        showToast("❌ Хуулах амжилтгүй, гараар хуулаарай", 2000);
+      }
+    }
+
+    // Илгээх үйлдэл: mailto + clipboard сонголт
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!validateForm()) return;
+      
+      const rawMessage = buildRequestMessage();
+      if (rawMessage.startsWith("Хогийн") || rawMessage.startsWith("Жингийн") || rawMessage.startsWith("Байршил") || rawMessage.startsWith("Утасны")) {
+        showToast(rawMessage, 2500);
+        return;
+      }
+      
+      let finalMsg = rawMessage;
+      if (selectedImageData) {
+        finalMsg += `\n\n[Зураг] Зураг хавсаргасан ба preview дээр харна уу. Та бидэнд имэйлээр илгээх эсвэл утсаар мэдэгдэх боломжтой.`;
+      }
+      
+      const subject = encodeURIComponent(`🚛 TrashCar хог авах хүсэлт - ${trashTypeInput.value.trim().substring(0, 35)}`);
+      const body = encodeURIComponent(finalMsg);
+      const mailtoLink = `mailto:${BUSINESS_EMAIL}?subject=${subject}&body=${body}`;
+      
+      const userChoice = confirm(
+        `📧 Таны хүсэлтийг ${BUSINESS_EMAIL} хаяг руу имэйлээр илгээх болно.\n\n"OK" дарвал имэйл хөтөлбөр нээгдэнэ. Хэрэв имэйл тохируулаагүй бол "Цуцлах" дараад текстийг хуулаад, манай доорх утас эсвэл Facebook хуудас руу явуулах боломжтой.\n\nЖингийн сонголт: ${weightSelect.value}`
+      );
+      
+      if (userChoice) {
+        window.location.href = mailtoLink;
+        showToast(`✉️ Имэйл програмаа нээж, илгээх товч дарна уу.`, 4000);
+      } else {
+        const copyConfirm = confirm("📋 Мессежийг хуулж аваад WhatsApp, Messenger эсвэл манай утас руу илгээх үү? (хуулах товч)");
+        if (copyConfirm) {
+          await copyToClipboard(finalMsg);
+          showToast("💬 Та одоо доорх дугаарууд руу мессеж илгээж болно: 9911-2233, 7000-1234 эсвэл Facebook хуудас.", 5000);
+        } else {
+          showToast("Та хүсэлтээ манай утас эсвэл Facebook-руу шууд илгээнэ үү! Баярлалаа.", 3000);
+        }
+      }
+    });
+  })();
+</script>
+</body>
+</html>
